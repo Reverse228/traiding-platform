@@ -28,7 +28,7 @@ const InputLabel: FC<Props> = ({
   labelProps,
 }) => {
   return (
-    <div className={cn("grid w-full max-w-sm items-center gap-1.5", className)}>
+    <div className={cn("grid w-full items-center gap-1.5", className)}>
       {label && (
         <Label
           htmlFor={id}

@@ -19,6 +19,12 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { ASSETS } from "@/utils/constants";
 import { useLogInUser } from "@/api";
 import { setToken } from "@/utils/functions/authentication";
+import { LifeBuoy } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 type LogInData = {
   email: string;
@@ -74,53 +80,69 @@ const LogIn = () => {
   }, [status]);
 
   return (
-    <MainWrapper
-      className={"flex justify-center flex-col items-center"}
-      rootClassName={"justify-center"}
-    >
-      <div className={"max-w-96 w-full flex flex-col gap-3 items-end"}>
-        <Button
-          variant={"link"}
-          className={"w-fit transition opacity-60 hover:opacity-100"}
-          onClick={handleReg}
+    <>
+      <MainWrapper
+        className={"flex justify-center flex-col items-center"}
+        rootClassName={"justify-center"}
+      >
+        <div className={"max-w-96 w-full flex flex-col gap-3 items-end"}>
+          <Button
+            variant={"link"}
+            className={"w-fit transition opacity-60 hover:opacity-100"}
+            onClick={handleReg}
+          >
+            Регестрация
+          </Button>
+          <Card className="w-full">
+            <CardHeader className={"gap-2"}>
+              <CardTitle>Вход</CardTitle>
+              <CardDescription>Вход в существующий аккаунт</CardDescription>
+            </CardHeader>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <CardContent className={"flex flex-col gap-4"}>
+                <InputLabel
+                  id={"email"}
+                  label={"Email"}
+                  inputProps={{ type: "email", ...register("email") }}
+                />
+                <InputLabel
+                  id={"password"}
+                  label={"Password"}
+                  inputProps={{ type: "password", ...register("password") }}
+                />
+              </CardContent>
+              <CardFooter>
+                <Button
+                  className={"w-full"}
+                  type={"submit"}
+                  disabled={!(watch("email") && watch("password")) || isLoading}
+                >
+                  {isLoading ? (
+                    <LoadingSpinner className={"absolute"} />
+                  ) : (
+                    "Войти"
+                  )}
+                </Button>
+              </CardFooter>
+            </form>
+          </Card>
+        </div>
+      </MainWrapper>
+      <HoverCard>
+        <HoverCardTrigger
+          className={
+            "absolute top-full left-full -translate-y-[200%] -translate-x-[200%]"
+          }
         >
-          Регестрация
-        </Button>
-        <Card className="w-full">
-          <CardHeader className={"gap-2"}>
-            <CardTitle>Вход</CardTitle>
-            <CardDescription>Вход в существующий аккаунт</CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent className={"flex flex-col gap-4"}>
-              <InputLabel
-                id={"email"}
-                label={"Email"}
-                inputProps={{ type: "email", ...register("email") }}
-              />
-              <InputLabel
-                id={"password"}
-                label={"Password"}
-                inputProps={{ type: "password", ...register("password") }}
-              />
-            </CardContent>
-            <CardFooter>
-              <Button
-                className={"w-full"}
-                type={"submit"}
-                disabled={!(watch("email") && watch("password")) || isLoading}
-              >
-                {isLoading ? (
-                  <LoadingSpinner className={"absolute"} />
-                ) : (
-                  "Войти"
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
-      </div>
-    </MainWrapper>
+          <LifeBuoy
+            className={"opacity-40 hover:opacity-100 transition cursor-pointer"}
+          />
+        </HoverCardTrigger>
+        <HoverCardContent className={"text-xs w-fit"}>
+          Служба поддержки
+        </HoverCardContent>
+      </HoverCard>
+    </>
   );
 };
 
